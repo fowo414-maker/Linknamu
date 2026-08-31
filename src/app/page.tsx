@@ -1,4 +1,4 @@
-import LinkCard from "@/components/LinkCard";
+import LinkList from "@/components/LinkList";
 
 // TODO: 나중에 실제 값으로 교체 (프로필/링크는 DB 또는 설정 파일에서 로드)
 const profile = {
@@ -85,14 +85,8 @@ export default function Home() {
         {/* 한 줄 소개 */}
         <p className="mt-1 text-sm text-zinc-400">{profile.bio}</p>
 
-        {/* 링크 카드 목록 */}
-        <ul className="mt-12 flex w-full flex-col gap-4 sm:gap-5">
-          {links.map((link) => (
-            <li key={link.title}>
-              <LinkCard {...link} />
-            </li>
-          ))}
-        </ul>
+        {/* 링크 카드 목록 (클릭 수는 클라이언트에서 불러와 갱신) */}
+        <LinkList links={links} />
       </main>
     </div>
   );
