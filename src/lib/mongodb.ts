@@ -8,7 +8,9 @@ if (!rawUri) {
   throw new Error(".env.local에 MONGODB_URL 환경변수를 설정해 주세요.");
 }
 
-// 개발 환경에서는 HMR로 모듈이 다시 평가돼도 커넥션이 재사용되도록 전역에 캐싱한다.
+// 서버리스(Vercel)에서는 요청마다 모듈이 재실행되지는 않지만, 한 인스턴스 안에서
+// 커넥션을 반드시 재사용해야 한다. 개발 환경에서도 HMR로 모듈이 다시 평가될 때
+// 커넥션이 중복 생성되지 않도록 전역에 캐싱한다.
 const globalForMongo = global as typeof globalThis & {
   _mongoClientPromise?: Promise<MongoClient>;
 };
@@ -54,7 +56,12 @@ async function resolveUri(uri: string): Promise<string> {
 }
 
 function connect(): Promise<MongoClient> {
-  const promise = resolveUri(rawUri!).then((uri) => new MongoClient(uri).connect());
+  const promise = resolveUri(rawUri!).then((uri) =>
+    new MongoClient(uri, {
+      maxPoolSize: 10, // 서버리스 인스턴스가 많아도 Atlas 커넥션 한도를 넘지 않도록 제한
+      serverSelectionTimeoutMS: 8000, // 연결 실패 시 함수 타임아웃 전에 에러를 반환
+    }).connect(),
+  );
   // 연결에 실패하면 캐시를 비워 다음 요청에서 다시 시도하도록 한다.
   promise.catch(() => {
     if (globalForMongo._mongoClientPromise === promise) {
@@ -65,10 +72,7 @@ function connect(): Promise<MongoClient> {
 }
 
 function getClientPromise(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === "development") {
-    return (globalForMongo._mongoClientPromise ??= connect());
-  }
-  return connect();
+  return (globalForMongo._mongoClientPromise ??= connect());
 }
 
 export type ClickDoc = {
