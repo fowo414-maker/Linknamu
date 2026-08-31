@@ -19,43 +19,44 @@ const links = [
 
 export default function Home() {
   return (
-    <div className="relative flex min-h-dvh flex-1 flex-col items-center overflow-hidden bg-[#080808]">
-      {/* 천장 중앙에서 아래로 비추는 스포트라이트 */}
+    <div className="relative flex min-h-dvh flex-1 flex-col items-center overflow-hidden bg-[#0d0d0d]">
+      {/* 천장 중앙에서 아래로 비추는 은은한 조명 */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        {/* 상단 광원 (좁고 밝은 시작점) */}
+        {/* 빛줄기 (아래로 퍼지는 원뿔, 테두리를 아주 흐리게) */}
         <div
-          className="absolute left-1/2 top-[-6%] h-[240px] w-[260px] -translate-x-1/2 rounded-full"
+          className="absolute left-1/2 top-0 h-[88%] w-[620px] -translate-x-1/2"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.14) 45%, rgba(255,255,255,0) 75%)",
-            filter: "blur(44px)",
+              "linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(224,224,230,0.13) 32%, rgba(168,168,178,0.06) 62%, rgba(120,120,130,0) 100%)",
+            clipPath: "polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%)",
+            filter: "blur(80px)",
           }}
         />
-        {/* 아래로 부드럽게 퍼지는 빛줄기 */}
+        {/* 공중에 번지는 빛 (은은한 앰비언트) */}
         <div
-          className="absolute left-1/2 top-0 h-[76%] w-[560px] -translate-x-1/2"
+          className="absolute left-1/2 top-[2%] h-[520px] w-[600px] -translate-x-1/2 rounded-full"
           style={{
             background:
-              "linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(228,228,234,0.08) 42%, rgba(160,160,170,0.03) 70%, rgba(120,120,130,0) 100%)",
-            clipPath: "polygon(42% 0%, 58% 0%, 88% 100%, 12% 100%)",
-            filter: "blur(64px)",
+              "radial-gradient(ellipse at center, rgba(255,255,255,0.16) 0%, rgba(198,198,205,0.07) 46%, rgba(140,140,150,0) 76%)",
+            filter: "blur(90px)",
           }}
         />
-        {/* 바닥에 번지는 타원형 빛 */}
+        {/* 바닥에 닿은 원형 빛 웅덩이 (원근감으로 납작하게) */}
         <div
-          className="absolute bottom-[4%] left-1/2 h-[320px] w-[880px] -translate-x-1/2"
+          className="absolute left-1/2 bottom-[10%] h-[240px] w-[680px] -translate-x-1/2"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(244,244,250,0.15) 0%, rgba(198,198,208,0.06) 42%, rgba(130,130,140,0.02) 66%, rgba(0,0,0,0) 84%)",
-            filter: "blur(52px)",
+              "radial-gradient(ellipse at center, rgba(255,255,255,0.30) 0%, rgba(210,210,218,0.15) 38%, rgba(150,150,160,0.05) 62%, rgba(120,120,130,0) 80%)",
+            filter: "blur(36px)",
           }}
         />
-        {/* 가장자리를 어둡게 눌러주는 비네트 */}
+        {/* 바닥 빛의 밝은 코어 */}
         <div
-          className="absolute inset-0"
+          className="absolute left-1/2 bottom-[15%] h-[110px] w-[420px] -translate-x-1/2"
           style={{
             background:
-              "radial-gradient(ellipse 68% 58% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 68%, rgba(0,0,0,0.92) 100%)",
+              "radial-gradient(ellipse at center, rgba(255,255,255,0.22) 0%, rgba(230,230,235,0.10) 50%, rgba(140,140,150,0) 78%)",
+            filter: "blur(24px)",
           }}
         />
       </div>
